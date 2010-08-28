@@ -247,7 +247,7 @@ var feedUri = 'http://www.google.com/calendar/feeds/default/private/full';
 
 }
 
-function newCalendarAndEvent(colorcode, title, evts) {
+function newCalendarAndEvent(colorcode, title, evts, next) {
 
 console.log('creating new calendar');
 // Create the calendar service object
@@ -290,55 +290,60 @@ entry.setColor(color);
 
 // The callback method that will be called after a successful 
 // insertion from insertEntry()
-var callback = function(result) {
-//    debugger;
-    PRINT('calendar created!');
- //   debugger;
-    var calId = result.entry.getId().$t;
+    var callback = function(result) {
+	//    debugger;
+	PRINT('calendar created!');
+	//   debugger;
+	var calId = result.entry.getId().$t;
 
-////////
-    var cbx = function (feedRoot) {
-	console.log('callback from calendar query: ' + feedRoot);
-	
-	$.each(evts, function(i, evt) {
-	    var newEntry = new google.gdata.calendar.CalendarEventEntry({
+	////////
+	var cbx = function (feedRoot) {
+	    console.log('callback from calendar query: ' + feedRoot);
+	    
+	    $.each(evts, function(i, evt) {
+		var newEntry = new google.gdata.calendar.CalendarEventEntry({
+		    
+		    title: {
+			type: 'text', 
+			text: evt.title
+		    },
+		    content: {
+			type: 'text', 
+			text: evt.content
+		    },
+		    locations: [{
+			rel: "g.event",
+			label: "Event location",
+			valueString: "Netherfield Park tennis court"
+		    }],
+		    times: [{
+			//"2007-08-23T18:00:00.000Z"
+			startTime: google.gdata.DateTime.fromIso8601(evt.stime),
+			endTime: google.gdata.DateTime.fromIso8601(evt.etime)
+		    }]
+		});
 		
-		title: {
-		    type: 'text', 
-		    text: evt.title
-		},
-		content: {
-		    type: 'text', 
-		text: evt.content
-		},
-		locations: [{
-		    rel: "g.event",
-		    label: "Event location",
-		    valueString: "Netherfield Park tennis court"
-	    }],
-		times: [{
-		    //"2007-08-23T18:00:00.000Z"
-		    startTime: google.gdata.DateTime.fromIso8601(evt.stime),
-		    endTime: google.gdata.DateTime.fromIso8601(evt.etime)
-		}]
+		function handleMyInsertedEntry(insertedEntryRoot) {
+		    console.log("Entry inserted. The title is: " + insertedEntryRoot.entry.getTitle().getText());
+		    console.log("The timestamp is: " + insertedEntryRoot.entry.getTimes()[0].startTime);
+		    console.log("Calling next");
+		    if (next)
+			next();
+		    else
+			console.log('Thats it');
+		}
+		
+		
+		feedRoot.feed.insertEntry(newEntry, handleMyInsertedEntry, function (errr) { console.log('erf: ' + errr);});
 	    });
 	    
-	    function handleMyInsertedEntry(insertedEntryRoot) {
-		console.log("Entry inserted. The title is: " + insertedEntryRoot.entry.getTitle().getText());
-		console.log("The timestamp is: " + insertedEntryRoot.entry.getTimes()[0].startTime);
-	    }
-	    
-	    
-	    feedRoot.feed.insertEntry(newEntry, handleMyInsertedEntry, function (errr) { console.log('erf: ' + errr);});
-	});
-	
 
-    };
+	};
 
-    calId = calId.replace('http://www.google.com/calendar/feeds/default/calendars/','http://www.google.com/calendar/feeds/') + '/private/full';
-    console.log('calid' + calId);
-    getEvents(calId, cbx);
-}
+	calId = calId.replace('http://www.google.com/calendar/feeds/default/calendars/','http://www.google.com/calendar/feeds/') + '/private/full';
+	console.log('calid' + calId);
+	getEvents(calId, cbx);
+    }
 
 // Error handler will be invoked if there is an error from insertEntry()
 var handleError = function(error) {

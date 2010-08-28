@@ -88,6 +88,8 @@ function isClass (fgroup) {
 function process() {
     
     var courseNumberPrefixFilter = ',' + window.prompt("courseNumber","0366-1101");
+
+    var simesterFilter =  window.prompt("What simester? (1/2)?","1");
     
     console.log(courseNumberPrefixFilter);
 
@@ -163,12 +165,23 @@ function process() {
     var iColor = 0;
     $.each(allFields, function (cnum, fgroup) {
 
-//	console.log('indexOf: ' + ',' + cnum);
-	var indexof = (',' + cnum).indexOf(courseNumberPrefixFilter);
+	var inFilter = false;
+	$.each(courseNumberPrefixFilter.split(','), function (i, v) {
+	    if (v != '') {
+		inFilter = (',' + cnum).indexOf(courseNumberPrefixFilter) != -1;
+	    }
+	});
 	
-	if (indexof != -1) {    
-	    console.log('found field ' + cnum + ' i: ' + indexof);	    
+	console.log('cnum ' + cnum + ' filter: ' + courseNumberPrefixFilter + ' ' + inFilter );
+	
+	var isSimOne = fgroup['courseTime1_0'] == "'א 'מס";
 
+	if (simesterFilter == '1' && !isSimOne) {
+	   // console.log('not simester 1: ' +  fgroup['courseTime1_0'] + ' ' + isSimOne + ' ' + simesterFilter  );
+	    return;
+	}
+
+	if (inFilter) {    
 	    if (fgroup.isClass) {
 		console.log('found class');	    
 		//also for coursetime2
@@ -210,7 +223,8 @@ function process() {
 //		console.log('pushing');
 		pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime1"));
 		pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime2"));
-		
+	
+		var allParams = [];
 		$.each(fgroup.tirgulim, function (i, cnumx) {
 		    var tirgulEvts = [];
 
@@ -230,11 +244,20 @@ function process() {
 			console.log(JSON.stringify(evt));
 		    });
 
-		    newCalendarAndEvent(colorz[iColor], + ' option ' + iColor, evtsForThisCal);
-
+		    var args = [colorz[iColor], title + ' option ' + iColor, evtsForThisCal];
+		    allParams.push(args);
 		    console.log('---------------');
 		    
 		});
+
+		function continueOnThis(i) {
+		    pz = allParams[i];
+		    return newCalendarAndEvent(pz[0], pz[1], pz[2], continueOnThis(i + 1));
+		}
+
+		continueOnThis(0)(); 
+		
+		//newCalendarAndEvent()
 		
 		//console.log('');
 		// calScope  = createCalendar(cnum);

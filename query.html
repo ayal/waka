@@ -1,0 +1,384 @@
+
+<!-- saved from url=(0040)http://www2.tau.ac.il/yedion/yedion.html -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-8">
+<TITLE>Course Query</TITLE>
+
+<STYLE type="text/css" media="screen">
+<!--
+#prev{position:relative}
+#prev-child{position: absolute; top: 0; left: 150}
+body { margin-top: 0 }
+th, td{font-size: 13px}
+.border{border-top:solid thin  #6767FF;border-bottom: solid thin  #6767FF}
+.bordered{ border-top:solid thin  #6767FF;border-bottom: solid thin  #6767FF; border-left: solid thin  #6767FF}
+.border-right   { border-top:  solid thin #6767FF;border-right:  solid thin #6767FF}
+.checkbox{visibility: hidden; position: relative}
+a{font-size: 11px; color:#342CFF }
+-->
+</STYLE>
+<SCRIPT language="javascript">
+
+<!--
+var str= new String(window.location);
+var first_delim=str.search(/y=/i);
+var getYear=str.substring(first_delim+2, str.length);
+//
+
+function show(x)
+{
+var x;
+if(document.forms['theform'].elements["department"+x].selectedIndex!=0)   {
+                document.getElementById("check"+x).style.visibility="visible";
+				}
+
+else
+hide(x);
+}
+
+//
+function hide(x) {
+var x;
+document.getElementById("check"+x).style.visibility='hidden';
+document.forms['theform'].elements["department"+x].selectedIndex=0;
+}
+
+function checkStatus(){
+//alert(getYear)
+	for (i=0; i<document.forms['form'].year.options.length; i++){
+	if (document.forms['form'].year.options[i].value==getYear){
+	document.forms['form'].year.options[i].selected=true;
+	document.forms['theform'].year.options[i].selected=true;
+	}
+}
+for (x=1; x<13;x++){
+                 if (document.forms['theform'].elements["department"+x].selectedIndex!=0)
+				 {
+                 document.getElementById("check"+x).style.visibility="visible";
+                 }
+        }
+}
+//-->
+
+</SCRIPT>
+
+</HEAD><BODY background="./query_files/backgr.gif" marginheight="0" topmargin="0" onload="checkStatus()">
+<DIV align="center">
+<IMG src="./query_files/header-results.gif" width="721" height="96" border="0" alt="" usemap="#header-results"><BR><BR>
+<!--<div id="prev">
+        <div id="prev-child"><a href="yedion_old.html">תועש תכרעמב שופיח לש תמדוק הסריגל</a></div>
+</div>-->
+<IMG src="./query_files/title-search.gif" width="200" height="30" border="0" alt=""><BR>
+<FORM method="post" action="http://localhost:8080/gcal.sjs" name="form">
+<TABLE border="0" cellpadding="3" cellspacing="1" width="720">
+<TBODY><TR>
+        <TH bgcolor="#FECCFF" align="right">סרוק רפסמ  יפל
+</TH>
+</TR>
+<TR align="right" bgcolor="#C2D1FF">
+
+<TD align="right" valign="top">
+<INPUT name="MfcISAPICommand" type="Hidden" value="but">
+<TABLE><TBODY><TR><TD>
+<IMG src="./query_files/search.gif" width="52" height="28" border="0" alt="Submit" onclick="document.form.submit()" style="cursor:pointer;"></TD><TD><SELECT name="year"><OPTION value="1999">תש"ס</OPTION><OPTION value="2000">תשס"א</OPTION><OPTION value="2001">תשס"ב</OPTION><OPTION value="2002">תשס"ג</OPTION><OPTION value="2003">תשס"ד</OPTION><OPTION value="2004">תשס"ה</OPTION><OPTION value="2005">תשס"ו</OPTION><OPTION value="2006">תשס"ז</OPTION><OPTION value="2007">תשס"ח</OPTION><OPTION value="2008">תשס"ט</OPTION><OPTION value="2009">תש"ע</OPTION><OPTION value="2010" selected="">תשע"א</OPTION></SELECT></TD><TD><INPUT type="text" name="course_num" size="10" maxlength="12"></TD><TD>
+        <IMG src="./query_files/course-num1.gif" width="95" height="15" border="0" alt=""></TD></TR></TBODY></TABLE></TD>
+        </TR>
+</TBODY></TABLE>
+        </FORM>
+<FORM method="post" action="http://localhost:8080/gcal.sjs" name="theform">
+<INPUT name="MfcISAPICommand" type="Hidden" value="but"><TABLE border="0" cellpadding="3" cellspacing="1" width="720">
+<TBODY><TR>
+        <TH colspan="6" bgcolor="#FECCFF" align="right">םיפסונ סרוקה יטרפ יפל</TH>
+</TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TD><IMG src="./query_files/semester1.gif" width="58" height="15" border="0" alt=""></TD>
+        <TD><IMG src="./query_files/hour1.gif" width="36" height="15" border="0" alt=""></TD>
+        <TD><IMG src="./query_files/day1.gif" width="22" height="15" border="0" alt=""></TD>
+        <TD><IMG src="./query_files/department.gif" width="26" height="15" border="0" alt=""></TD>
+        <TD colspan="2"><IMG src="./query_files/faculty.gif" width="64" height="15" border="0" alt=""></TD>
+</TR>
+<TR bgcolor="#C2D1FF" align="right">
+
+<TD rowspan="6" valign="top">
+  <SELECT name="year"><OPTION value="1999">תש"ס</OPTION><OPTION value="2000">תשס"א</OPTION><OPTION value="2001">תשס"ב</OPTION><OPTION value="2002">תשס"ג</OPTION><OPTION value="2003">תשס"ד</OPTION><OPTION value="2004">תשס"ה</OPTION><OPTION value="2005">תשס"ו</OPTION><OPTION value="2006">תשס"ז</OPTION><OPTION value="2007">תשס"ח</OPTION><OPTION value="2008">תשס"ט</OPTION><OPTION value="2009">תש"ע</OPTION><OPTION value="2010" selected="">תשע"א</OPTION></SELECT><BR>
+ א רטסמס<INPUT type="checkbox" name="semester" value="1"><BR>
+ ב רטסמס<INPUT type="checkbox" name="semester" value="2"><BR>
+ יתנש <INPUT type="checkbox" name="semester" value="0"><BR>
+ ץיק<INPUT type="checkbox" name="semester" value="3"><BR>
+</TD>
+        <TD nowrap="" valign="top" rowspan="6">
+        10:00 דע<INPUT type="checkbox" name="hour" value="1"><BR>
+        10:00 - 12:00<INPUT type="checkbox" name="hour" value="2"><BR>
+        12:00 - 14:00<INPUT type="checkbox" name="hour" value="3"><BR>
+        14:00 - 16:00<INPUT type="checkbox" name="hour" value="4"><BR>
+        16:00 - 18:00<INPUT type="checkbox" name="hour" value="5"><BR>
+        18:00 - מ<INPUT type="checkbox" name="hour" value="6"><BR>
+        </TD>
+        <TD valign="top" rowspan="6">
+        א<INPUT type="checkbox" name="yom" value="1"><BR>
+        ב<INPUT type="checkbox" name="yom" value="2"><BR>
+        ג<INPUT type="checkbox" name="yom" value="3"><BR>
+        ד<INPUT type="checkbox" name="yom" value="4"><BR>
+        ה<INPUT type="checkbox" name="yom" value="5"><BR>
+        ו<INPUT type="checkbox" name="yom" value="6"><BR>
+        </TD>
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department1" onchange="show(&#39;1&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="08">כל הפקולטה לאמנויות
+  </OPTION><OPTION value="0809">חטיבה לשיעורי בחירה
+  </OPTION><OPTION value="0810">תכנית הבינתחומית לתואר שני באמנויות
+  </OPTION><OPTION value="0811">חוג לאמנות התאטרון
+  </OPTION><OPTION value="0812">שימור המורשת הבנויה ונופי תרבות
+  </OPTION><OPTION value="0813">הבעה ויצירה באמנויות
+  </OPTION><OPTION value="0821">חוג לתולדות האמנות
+  </OPTION><OPTION value="0831">חוג למוזיקולוגיה
+  </OPTION><OPTION value="0842084308450846">ביה"ס למוזיקה
+  </OPTION><OPTION value="0851">חוג לקולנוע וטלוויזיה
+  </OPTION><OPTION value="0853">לימודי הכשרה בקולנוע
+  </OPTION><OPTION value="0861">תכנית רב תחומית באמנויות
+  </OPTION><OPTION value="0881">ביה"ס לאדריכלות
+  </OPTION><OPTION value="0882">לימודי תעודה בשימור המורשת הבנויה
+  </OPTION><OPTION value="0897">לימודי תעודה במוזיאולוגיה
+ </OPTION></SELECT></FONT></TD>
+        <TD><DIV id="check1" class="checkbox"><A href="javascript:hide('1')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/arts.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department2" onchange="show(&#39;2&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="05">כל הפקולטה להנדסה
+  </OPTION><OPTION value="0509">תואר ראשון - קורסי שירות
+  </OPTION><OPTION value="0512">תואר ראשון - חשמל ואלקטרוניקה
+  </OPTION><OPTION value="0515">תואר ראשון - מחשבים ותוכנה
+  </OPTION><OPTION value="0542">תואר ראשון - הנדסה מכנית
+  </OPTION><OPTION value="0555">תואר ראשון - הנדסה ביו-רפואית
+  </OPTION><OPTION value="0571">תואר ראשון - הנדסת תעשייה
+  </OPTION><OPTION value="0508">תואר שני - לימודי ניהול
+  </OPTION><OPTION value="0510">ביה"ס להנדסת חשמל
+  </OPTION><OPTION value="0540">תואר שני - ביה"ס להנדסה מכנית
+  </OPTION><OPTION value="0545">תואר שני - הנדסת סביבה
+  </OPTION><OPTION value="0553">תואר שני - הנדסה ביו-רפואית
+  </OPTION><OPTION value="0572">תואר שני - הנדסת תעשייה
+  </OPTION><OPTION value="05820581">תואר שני - חומרים וננו-טכנולוגיות
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check2" class="checkbox"><A href="javascript:hide('2')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/engineering.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department3" onchange="show(&#39;3&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="10">כל הפקולטה למדעי החברה
+  </OPTION><OPTION value="1007">לימודי נשים והבדלי מינים
+  </OPTION><OPTION value="1009">חוגי מדעי החברה - כללי
+  </OPTION><OPTION value="1011">ביה"ס לכלכלה
+  </OPTION><OPTION value="1031">חוג למדע המדינה
+  </OPTION><OPTION value="1035">תכנית לדיפלומטיה
+  </OPTION><OPTION value="1041">חוג לסוציולוגיה ואנתרופולוגיה
+  </OPTION><OPTION value="1044">תכנית בינלאומית ביישוב סכסוכים וגישור
+  </OPTION><OPTION value="1051">חוג ללימודי עבודה
+  </OPTION><OPTION value="1052">לימודי בטחון
+  </OPTION><OPTION value="10541053">יישוב סכסוכים וגישור
+  </OPTION><OPTION value="1056">מנהיגות פוליטית לבכירים
+  </OPTION><OPTION value="1058">תקשורת פוליטית למנהלים
+  </OPTION><OPTION value="1066">מדיניות ציבורית למנהלים
+  </OPTION><OPTION value="1071">חוג לפסיכולוגיה
+  </OPTION><OPTION value="1082">תכנית למדיניות ציבורית
+  </OPTION><OPTION value="1085">תקשורת
+   </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check3" class="checkbox"><A href="javascript:hide('3')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/social.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+        <TR bgcolor="#C2D1FF" align="right">
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department4" onchange="show(&#39;4&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="04">כל הפקולטה למדעי החיים
+  </OPTION><OPTION value="0455">ביולוגיה - תואר ראשון
+  </OPTION><OPTION value="0411">מדעי הצמח
+  </OPTION><OPTION value="0421">ביוכימיה
+  </OPTION><OPTION value="0431">זואולוגיה
+  </OPTION><OPTION value="0452">חקר התא ולאימונולוגיה
+  </OPTION><OPTION value="0453">מיקרוביולוגיה מולקולרית וביוטכנולוגיה
+  </OPTION><OPTION value="0491">נוירוביוכימיה
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check4" class="checkbox"><A href="javascript:hide('4')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/life.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department5" onchange="show(&#39;5&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="06">כל הפקולטה למדעי הרוח
+  </OPTION><OPTION value="0626">אנגלית
+  </OPTION><OPTION value="0671">ארכיאולוגיה ותרבויות המזרח הקדום
+  </OPTION><OPTION value="0627">בלשנות כללית
+  </OPTION><OPTION value="0691">גאוגרפיה וסביבת האדם
+  </OPTION><OPTION value="06210632065206530656065706960698">היסטוריה כללית
+  </OPTION><OPTION value="0632">&nbsp;&nbsp;היסטוריה של האמריקות
+  </OPTION><OPTION value="0652">&nbsp;&nbsp;היסטוריה של מרכז אירופה בעת החדשה
+  </OPTION><OPTION value="0653">&nbsp;&nbsp;היסטוריה צבאית ודיפלומטית
+  </OPTION><OPTION value="0656">&nbsp;&nbsp;מגמת העת העתיקה
+  </OPTION><OPTION value="0657">&nbsp;&nbsp;מגמת ימי הביניים
+  </OPTION><OPTION value="0698">&nbsp;&nbsp;העת החדשה המוקדמת
+  </OPTION><OPTION value="0622063806390654">היסטוריה של המזה"ת ואפריקה
+  </OPTION><OPTION value="06170677">היסטוריה של עם ישראל
+  </OPTION><OPTION value="0659">היסטוריה ופילוסופיה של המדעים והרעיונות
+  </OPTION><OPTION value="062306310637">לימודי הערבית ואסלאם
+  </OPTION><OPTION value="0672">לימודים קלאסיים
+  </OPTION><OPTION value="0687">לימודי מזרח אסיה
+  </OPTION><OPTION value="061206140615062406820690">לימודי התרבות העברית
+  </OPTION><OPTION value="0633">לימודי תעודה בתרגום ועריכת תרגום
+  </OPTION><OPTION value="061506280680">ספרות
+  </OPTION><OPTION value="06160618">פילוסופיה
+  </OPTION><OPTION value="06250668">צרפתית
+  </OPTION><OPTION value="06100662">תכנית הלימודים הכלליים והבין תחומיים
+  </OPTION><OPTION value="0608">תכנית הלימודי נשים ומגדר
+  </OPTION><OPTION value="0697">מדעי הדתות
+  </OPTION><OPTION value="06200669">מדעי התרבות
+  </OPTION><OPTION value="0688">לימודים קוגנטיביים של השפה ושימושיה
+  </OPTION><OPTION value="0699">למודי תעודה-עריכה לשונית
+  </OPTION><OPTION value="06290630">היחי דה להוראת שפות
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check5" class="checkbox"><A href="javascript:hide('5')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/humanities.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department6" onchange="show(&#39;6&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="03">כל הפקולטה למדעים מדוייקים
+  </OPTION><OPTION value="0311">מגמה למדע כללי
+  </OPTION><OPTION value="0321">פיסיקה ואסטרונומיה
+  </OPTION><OPTION value="0341">גיאופיסיקה ומדעים פלנטריים
+  </OPTION><OPTION value="0351">כימיה
+  </OPTION><OPTION value="0365">סטטיסטיקה וחקר ביצועים
+  </OPTION><OPTION value="0366">מתמטיקה
+  </OPTION><OPTION value="03680382">מדעי המחשב
+  </OPTION><OPTION value="0382">&nbsp;&nbsp;ביואינפורמטיקה
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check6" class="checkbox"><A href="javascript:hide('6')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/exact.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TH colspan="3" bgcolor="#FECCFF" align="right">הצרמ וא/ו סרוק םש יפל
+</TH>
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department7" onchange="show(&#39;7&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="14">כל הפקולטה למשפטים
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check7" class="checkbox"><A href="javascript:hide('7')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/law.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+        <TD colspan="3" rowspan="2"><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><INPUT type="text" name="course_nam" size="15"></FONT>&nbsp;<IMG src="./query_files/course-name1.gif" width="83" height="15" border="0" alt=""><BR>
+        <FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><INPUT type="text" name="teach_nam" size="15"></FONT>&nbsp;<IMG src="./query_files/lecturer1.gif" width="83" height="15" border="0" alt=""></TD>
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department8" onchange="show(&#39;8&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="12">כל הפקולטה לניהול
+  </OPTION><OPTION value="1211">חשבונאות
+  </OPTION><OPTION value="1221">ניהול
+  </OPTION><OPTION value="1231">תכנית במנהל עסקים
+  </OPTION><OPTION value="1233">תכנית מנהל מערכות בריאות
+  </OPTION><OPTION value="1235">מינהל עסקים למנהלים
+  </OPTION><OPTION value="1241">מדעי הניהול- חקר ביצועים והחלטות
+  </OPTION><OPTION value="1242">מדעי הניהול-טכנולוגיה ומערכות מידע
+  </OPTION><OPTION value="1243">מדעי הניהול-התנהגות ארגונית
+  </OPTION><OPTION value="1244">מדעי הניהול - מימון וחשבונאות
+  </OPTION><OPTION value="1245">מדעי הניהול - ניהול השיווק
+  </OPTION><OPTION value="1261">מב"ע עם התמחות בניהול פיננסי
+  </OPTION><OPTION value="1262">מב"ע עם התמחות במערכות מידע
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check8" class="checkbox"><A href="javascript:hide('8')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/management.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+
+        <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department9" onchange="show(&#39;9&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="01">כל הפקולטה לרפואה
+  </OPTION><OPTION value="010301120113011401160117011801190141">המדרשה לתארים מתקדמים
+  </OPTION><OPTION value="0104">התכנית המשולבת במדעי החיים והרפואה
+  </OPTION><OPTION value="0111">ביה"ס לרפואה
+<!-- Remove Midrasha departments as separate units
+  <OPTION value="0112">אמבריולוגיה וטרטולוגיה
+  <OPTION value="0113">אנטומיה ואנתרופולוגיה
+  <OPTION value="0114">גנטיקה הומנית
+  <OPTION value="01150141">ביולוגיה תאית והתפתחותית
+  <OPTION value="0116">פיסיולוגיה ופרמקולוגיה
+  <OPTION value="0117">פתולוגיה
+  <OPTION value="0118">ביוכימיה קלינית
+  <OPTION value="0119">מיקרוביולוגיה הומנית
+ -->
+  </OPTION><OPTION value="0131">רפואה-תכנית לתושבי ניו-יורק /ארה"ב
+  </OPTION><OPTION value="0158">אפידמיולגיה
+  </OPTION><OPTION value="0159">בריאות בתעסוקה
+  </OPTION><OPTION value="0161">לימודי הפרעות בתקשורת
+  </OPTION><OPTION value="0162">סיעוד - תכנית בסיסית
+  </OPTION><OPTION value="0163">סיעוד
+  </OPTION><OPTION value="0164">פיזיותרפיה
+  </OPTION><OPTION value="0165">ריפוי בעיסוק
+  </OPTION><OPTION value="0183">פיזיוטרפיה וריפוי בעיסוק - תואר שני
+  </OPTION><OPTION value="0191">ביה"ס לרפואת שיניים
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check9" class="checkbox"><A href="javascript:hide('9')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/med.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+<TD colspan="3">&nbsp;</TD>
+                <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)">
+                <SELECT name="department10" onchange="show(&#39;10&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="11">כל ביה"ס לעבודה סוציאלית
+ </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check10" class="checkbox"><A href="javascript:hide('10')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/socialwork.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+<TD colspan="3" rowspan="3" align="center">
+<IMG src="./query_files/search.gif" width="52" height="28" border="0" alt="Submit" onclick="document.theform.submit()" style="cursor:pointer;">&nbsp;&nbsp;<A onclick="location.reload();" href="http://www2.tau.ac.il/yedion/yedion.html#"><IMG src="./query_files/clear.gif" width="52" height="28" border="0" alt=""></A></TD>
+<TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department11" onchange="show(&#39;11&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="07">כל ביה"ס לחינוך
+  </OPTION><OPTION value="072107120713">חינוך מיוחד וייעוץ חינוכי
+  </OPTION><OPTION value="0722071607340732">מדיניות ומינהל בחינוך
+  </OPTION><OPTION value="073807310733075607520754">תכנון לימודים והוראה
+  </OPTION><OPTION value="075707510755">חינוך מתמטי, מדעי וטכנולגי
+  </OPTION></SELECT></FONT>
+        </TD>
+        <TD><DIV id="check11" class="checkbox"><A href="javascript:hide('11')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+        <TD><IMG src="./query_files/edu.gif" width="145" height="17" border="0" alt=""></TD>
+        </TR>
+<TR bgcolor="#C2D1FF" align="right">
+  <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department12" onchange="show(&#39;12&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="09">כל ביה"ס ללימודי הסביבה
+  </OPTION></SELECT></FONT>
+  </TD>
+  <TD><DIV id="check12" class="checkbox"><A href="javascript:hide('12')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+  <TD><IMG src="./query_files/environ.gif" width="145" height="17" border="0" alt=""></TD>
+</TR>
+
+<TR bgcolor="#C2D1FF" align="right">
+  <TD><FONT face="MS Sans Serif,Arial (Hebrew),Courier New (Hebrew)"><SELECT name="department13" onchange="show(&#39;13&#39;);" dir="rtl">
+  <OPTION value="" selected="">
+  </OPTION><OPTION value="0629">אנגלית כשפה זרה
+  </OPTION><OPTION value="0630">שפות זרות
+  </OPTION></SELECT></FONT>
+  </TD>
+  <TD><DIV id="check13" class="checkbox"><A href="javascript:hide('13')"><IMG src="./query_files/checked.gif" width="17" height="17" border="0" alt=""></A></DIV></TD>
+  <TD><IMG src="./query_files/langu.jpg" width="145" height="17" border="0" alt=""></TD>
+</TR>
+
+</TBODY></TABLE>
+</FORM>
+</DIV>
+<MAP name="header-results">
+<AREA shape="rect" coords="381,3,720,93" href="http://www.tau.ac.il/" title="">
+<AREA shape="default" nohref="">
+
+</MAP></BODY></HTML>

@@ -87,6 +87,7 @@ function isClass (fgroup) {
 
 function process() {
     
+    
     var courseNumberPrefixFilter = ',' + window.prompt("courseNumber","0366-1101");
 
     var simesterFilter =  window.prompt("What simester? (1/2)?","1");
@@ -104,9 +105,13 @@ function process() {
 	var currentFieldVal= $(y).next().attr('innerHTML');
 	
 	if (currentFieldName == 'courseName') {
+
+	    var cnum = '' + fieldGroup['courseNumber_0'];
+
 	    
-	    if (fieldGroup['courseNumber_0']) {
-		allFields['' + fieldGroup['courseNumber_0']] = fieldGroup;
+
+	    if (cnum) {
+		allFields[cnum] = fieldGroup;
 	    }
 	    fieldGroup = {};
 	}
@@ -127,6 +132,7 @@ function process() {
     var classScope = {};
     
     $.each(allFields, function (cnum, fgroup) {
+	
 	
 	if (isClass(fgroup)) {
 	    classScope = fgroup;
@@ -161,14 +167,16 @@ function process() {
 
     var calScope = null;
 //    console.log(allFields.lengt);
-    console.log('ma');
+//    console.log('ma');
     var iColor = 0;
+    var allParams = [];
+
     $.each(allFields, function (cnum, fgroup) {
 
 	var inFilter = false;
 	$.each(courseNumberPrefixFilter.split(','), function (i, v) {
-	    if (v != '') {
-		inFilter = (',' + cnum).indexOf(courseNumberPrefixFilter) != -1;
+	    if (v != '' && !inFilter) {
+		inFilter = (',' + cnum).indexOf(v) != -1;
 	    }
 	});
 	
@@ -224,7 +232,7 @@ function process() {
 		pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime1"));
 		pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime2"));
 	
-		var allParams = [];
+		
 		$.each(fgroup.tirgulim, function (i, cnumx) {
 		    var tirgulEvts = [];
 
@@ -250,12 +258,7 @@ function process() {
 		    
 		});
 
-		function continueOnThis(i) {
-		    pz = allParams[i];
-		    return newCalendarAndEvent(pz[0], pz[1], pz[2], continueOnThis(i + 1));
-		}
 
-		continueOnThis(0)(); 
 		
 		//newCalendarAndEvent()
 		
@@ -267,6 +270,17 @@ function process() {
 	
 	
     });
+
+    if (confirm('Going to create ' + allParams.length + ' calendars. Ok?')) {
+	function continueOnThis(i) {
+	    pz = allParams[i];
+	    if (!pz)
+		return null;
+	    return newCalendarAndEvent(pz[0], pz[1], pz[2], continueOnThis(i + 1));
+	}
+	
+	continueOnThis(0)(); 
+    }
 }
 	   
 	   

@@ -327,10 +327,12 @@ entry.setColor(color);
 		    console.log("Entry inserted. The title is: " + insertedEntryRoot.entry.getTitle().getText());
 		    console.log("The timestamp is: " + insertedEntryRoot.entry.getTimes()[0].startTime);
 		    console.log("Calling next");
-		    if (next)
+		    if (next) {
 			next();
-		    else
+		    }
+		    else {
 			console.log('Thats it');
+		    }
 		}
 		
 		

@@ -56,7 +56,6 @@ function onlyEnglish(s) {
     return s.substring(lastIndex + 1, s.length);
 }
 
-
 var pattern1 = '@courseTime1_2,@courseTime1_2,@courseTime1_1,@courseName_0,@courseType_0 @profName_0';
 var pattern2 = '@courseTime2_2,@courseTime2_2,@courseTime2_1,@courseName_0,@courseType_0 @profName_0';
 
@@ -68,108 +67,103 @@ var option = 0;
 var all = '';
 var profLines = '';
 
-//var courseNumberPrefixFilter = ',0366-1101';
-
 function handleUnicode(raw) {
-
     var oneway = unescape(raw);
     var backway = oneway.split("").reverse().join("");
-    //alert(backway);
     return backway;
 }
-
-
-
 
 function isClass (fgroup) {
     return fgroup["courseType_0"] == 'רועיש';
 }
 
-function process() {
+function formatIso(d, t) {
+    var sm = '' + (d.getMonth() + 1);
+    var sd = '' + d.getDate();
     
+    if (sm.length == 1)
+	sm = '0' + sm;
+
+    if (sd.length == 1)
+	sd = '0' + sd;
+
+    return  d.getFullYear() + '-' + sm + '-' +  sd + 'T' + t + ':00.000+03:00';
+}
+
+var fieldGroup = {};
+var allFields = {};
+var fieldSuffix = 0;
+
+function initFromData () {
+    console.log('init from data');
     
-    var courseNumberPrefixFilter = ',' + window.prompt("courseNumber","0366-1101");
-
-    var simesterFilter =  window.prompt("What simester? (1/2)?","1");
-    
-    console.log(courseNumberPrefixFilter);
-
-    var fieldGroup = {};
-    var allFields = {};
-    var fieldSuffix = 0;
-
-
     $.each($('td.left'), function (x, y) {
-	//	alert('td');
 	var currentFieldName = $(y).attr('innerHTML');
 	var currentFieldVal= $(y).next().attr('innerHTML');
 	
 	if (currentFieldName == 'courseName') {
-
-	    var cnum = '' + fieldGroup['courseNumber_0'];
-
 	    
-
+	    var cnum = '' + fieldGroup['courseNumber_0'];
 	    if (cnum) {
 		allFields[cnum] = fieldGroup;
+
 	    }
 	    fieldGroup = {};
 	}
 
 	if (fieldGroup[currentFieldName + '_' + fieldSuffix]) {
-            fieldSuffix++;
+	    fieldSuffix++;
 	}
 	else {
-            fieldSuffix = 0;
+	    fieldSuffix = 0;
 	}
 	
 	fieldGroup[currentFieldName + '_' + fieldSuffix] = currentFieldVal;
 	
     });
 
-//    alert(1);
+	var classScope = {};
 
-    var classScope = {};
-    
-    $.each(allFields, function (cnum, fgroup) {
-	
-	
-	if (isClass(fgroup)) {
-	    classScope = fgroup;
-	    classScope.isClass = true;
-	}
-	else {
-	    if (!classScope.tirgulim) {
-		classScope.tirgulim = [];
+	$.each(allFields, function (cnum, fgroup) {
+	    if (isClass(fgroup)) {
+		classScope = fgroup;
+		classScope.isClass = true;
 	    }
+	    else {
+		if (!classScope.tirgulim) {
+		    classScope.tirgulim = [];
+		}
 
-	    classScope.tirgulim.push(cnum);
-	}
+		classScope.tirgulim.push(cnum);
+	    }
+	});
+}
 
-	//alert(JSON.stringify(fgroup));
-    });
+$(document).ready(function () {
+    initFromData();
+});
 
+function parseTime(time) {
+    var bef = time[0] + time[1];
+    var aft = time[2] + time[3];
+    return bef + ':' + aft;
+}
+function parseTimes(times) {
+    var startend = times.split(' - ');
+    return parseTime(startend[0]) + ',' + parseTime(startend[1]);
+}
+   
+function process() {
 
-//    alert('111');
-    function formatIso(d, t) {
-	var sm = '' + (d.getMonth() + 1);
-	var sd = '' + d.getDate();
- 
-	if (sm.length == 1)
-	    sm = '0' + sm;
-
-	if (sd.length == 1)
-	    sd = '0' + sd;
-
-	return  d.getFullYear() + '-' + sm + '-' +  sd + 'T' + t + ':00.000+03:00';
-    }
-    
+    var courseNumberPrefixFilter = ',' + window.prompt("courseNumber","0366-1101");
+    var simesterFilter =  window.prompt("What simester? (1/2)?","1");
+    console.log(courseNumberPrefixFilter);
 
     var calScope = null;
-//    console.log(allFields.lengt);
-//    console.log('ma');
     var iColor = 0;
     var allParams = [];
+
+    console.log('len: ' + allFields.length);
 
     $.each(allFields, function (cnum, fgroup) {
 
@@ -179,48 +173,34 @@ function process() {
 		inFilter = (',' + cnum).indexOf(v) != -1;
 	    }
 	});
+	if (inFilter)
+	    console.log('cnum ' + cnum + ' filter: ' + courseNumberPrefixFilter + ' ' + inFilter );
 	
-	console.log('cnum ' + cnum + ' filter: ' + courseNumberPrefixFilter + ' ' + inFilter );
-	
-	var isSimOne = fgroup['courseTime1_0'] == "'א 'מס";
-
-	if (simesterFilter == '1' && !isSimOne) {
-	   // console.log('not simester 1: ' +  fgroup['courseTime1_0'] + ' ' + isSimOne + ' ' + simesterFilter  );
-	    return;
-	}
-
 	if (inFilter) {    
 	    if (fgroup.isClass) {
 		console.log('found class');	    
 		//also for coursetime2
 		function parseEvent(fg, timePropName) {
-		    console.log('class evt');
 		
 		    if (!fg[timePropName + '_0']) {
-			//console.log('no prop: ' + timePropName + '_0 ' + JSON.stringify(fg));
 			return null;
 		    }
-		    
+
 		    var evt = {};
 		    
 		    evt.title =  onlyEnglish(fg["courseName_0"]) + " " + handleUnicode(fg["courseType_0"]); 
     		    evt.content = handleUnicode(fg["profName_0"]);
 		    
-		    var time = fg[timePropName + '_1'].replace(/00/g,":00").replace(/:000/g,"0:00").split(" - ").reverse().join(",");
+		    var time = parseTimes(fg[timePropName + '_1']);
 		    var day = fg[timePropName + '_2'].replace("'","");
-//		    console.log('time: ' + time);    
-//		    console.log('day: ' + day);
+
 		    if (days[day]) {
 			var orig = days[day];
 			evt.stime = formatIso(dateFromDayName(orig), time.split(',')[0]);
 			evt.etime = formatIso(dateFromDayName(orig), time.split(',')[1])
-			
-			//			console.log(JSON.stringify(evt));
 		    }
 		    return evt;
 		}
-		
-//		console.log('push if not null');
 		function pushIfNotNull (arr, item) {
 		    if (item)
 			arr.push(item);
@@ -228,49 +208,60 @@ function process() {
 
 		var classEvts = [];
 
-//		console.log('pushing');
-		pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime1"));
-		pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime2"));
-	
+		var isSimOne = fgroup['courseTime1_0'] == "'א 'מס";
+		console.log('IS 0 SIM 1:' + isSimOne);
+		if (simesterFilter == '1' && isSimOne) {
+		    pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime1"));
+		}
+
+		var isSimOne = fgroup['courseTime2_0'] == "'א 'מס";
+		console.log('IS 1 SIM 1:' + isSimOne);
+		if (simesterFilter == '1' && isSimOne) {
+		    pushIfNotNull(classEvts, parseEvent(fgroup, "courseTime2"));
+		}
+
+		var title =  onlyEnglish(fgroup['courseName_0']);
 		
-		$.each(fgroup.tirgulim, function (i, cnumx) {
-		    var tirgulEvts = [];
+		if (fgroup.tirgulim) {
+		    $.each(fgroup.tirgulim, function (i, cnumx) {
+			var tirgulEvts = [];
 
+			pushIfNotNull(tirgulEvts, parseEvent(allFields[cnumx], "courseTime1"));
+			pushIfNotNull(tirgulEvts, parseEvent(allFields[cnumx], "courseTime2"));
+			
+			if (iColor >= colorz.length - 1)
+			    iColor = 0;
+			
+			var evtsForThisCal = $.merge($.merge([], classEvts), tirgulEvts);
+			$.each( evtsForThisCal, function (i, evt) {
+			    console.log(JSON.stringify(evt));
+			});
 
-		    pushIfNotNull(tirgulEvts, parseEvent(allFields[cnumx], "courseTime1"));
-		    pushIfNotNull(tirgulEvts, parseEvent(allFields[cnumx], "courseTime2"));
+			var args = [colorz[iColor], title + ' option ' + iColor, evtsForThisCal];
+			allParams.push(args);
+			console.log('---------------');
+			
+		    });
+		}
+		else {
 		    
-		    if (iColor >= colorz.length - 1)
-			iColor = 0;
-
-		    console.log('color: ' + colorz[iColor++]);
-		    var title =  onlyEnglish(fgroup['courseName_0']);
-		    console.log('title: ' + title + ' option ' + iColor); 
+		    console.log('title: ' + title + ' option ' + (++iColor));
 		    
-		    var evtsForThisCal = $.merge($.merge([], classEvts), tirgulEvts);
+		    var evtsForThisCal = $.merge([], classEvts);
 		    $.each( evtsForThisCal, function (i, evt) {
 			console.log(JSON.stringify(evt));
 		    });
-
+		    
 		    var args = [colorz[iColor], title + ' option ' + iColor, evtsForThisCal];
 		    allParams.push(args);
 		    console.log('---------------');
-		    
-		});
-
-
-		
-		//newCalendarAndEvent()
-		
-		//console.log('');
-		// calScope  = createCalendar(cnum);
+		}
 	    }
-	    // calScope.addEvent();
-	}
-	
-	
+	}	
     });
 
+    console.log('finished processing');
+    
     if (confirm('Going to create ' + allParams.length + ' calendars. Ok?')) {
 	function continueOnThis(i) {
 	    pz = allParams[i];

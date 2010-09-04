@@ -84,8 +84,17 @@ var myEventsFeed;
 function init() {
 
 //    document.write('init');
-    
     EVENT_FEED_URL = "http://www.google.com/calendar/feeds/";
+    
+    var session = (new Date()).getHours();
+    if (sessionStorage.loggedIn != session) {
+	console.log('setting new session ' + session );
+	sessionStorage.setItem('loggedIn', session);
+	login();
+	return;
+    }
+
+ 
     console.log('init');
     calendarId = getParam('calendarId');
     stime = getParam('stime');
@@ -99,7 +108,7 @@ function init() {
     var token = google.accounts.user.checkLogin(EVENT_FEED_URL);
     // Write the token to the console for debug
     //google.gdata.util.log("token: '" + token + "'");
-    console.log('check login:' + token)
+    console.log('checking login:' + token)
     myService = 
 	new google.gdata.calendar.CalendarService("Google-Notes-0.9");
     
@@ -118,10 +127,9 @@ function init() {
 	}
 
 	
-    } else {
+    } 
+    else {
 	console.log('NO');
-	//login();
-	
     } 
     
     reset();
@@ -132,6 +140,7 @@ google.setOnLoadCallback(init);
 /**
  * Requests an AuthSub token for interaction with the Calendar service.
  */
+
 function login() {
   var token = google.accounts.user.login(EVENT_FEED_URL);
   console.log('token: ' + token);
@@ -324,17 +333,23 @@ entry.setColor(color);
 		});
 		
 		function handleMyInsertedEntry(insertedEntryRoot) {
+
 		    console.log("Entry inserted. The title is: " + insertedEntryRoot.entry.getTitle().getText());
 		    console.log("The timestamp is: " + insertedEntryRoot.entry.getTimes()[0].startTime);
 		    console.log("Calling next");
-		    if (next) {
-			next();
+		 
+		    if (i == evts.length - 1) {
+			if (next) {
+			    console.log('calling next...');
+			    next();
+			}
+			else {
+			    console.log('Thats it');
+			}
 		    }
-		    else {
-			console.log('Thats it');
-		    }
+		    
 		}
-		
+
 		
 		feedRoot.feed.insertEntry(newEntry, handleMyInsertedEntry, function (errr) { console.log('erf: ' + errr);});
 	    });
